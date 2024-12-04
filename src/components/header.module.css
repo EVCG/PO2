@@ -1,0 +1,144 @@
+.usuario {
+  display: flex;
+  height: 123%;
+  align-items: center;
+  width: 220px;
+  margin-right: 7%;
+  justify-content: end;
+}
+
+.usuario h1 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.logout{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-around;
+}
+
+.logout span{
+  padding: 10px;
+}
+
+.imagem{
+padding: 10px;
+}
+
+.avatar {
+  position: relative;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 4px solid #4B006E;
+  justify-content: center;
+  align-items: center;
+}
+
+.cabeca {
+  width: 40%;
+  height: 40%;
+  background-color: #4B006E;
+  border-radius: 50%;
+  position: absolute;
+  top: 20%;
+}
+
+.corpo {
+  width: 75%;
+  height: 30%;
+  background-color: #4B006E;
+  border-radius: 50% 50% 20% 20%;
+  position: absolute;
+  bottom: 0;
+}
+
+/* Hamburguer Menu */
+.hamburguer {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.hamburguer span {
+  width: 25px;
+  height: 3px;
+  background-color: #4B006E;
+
+}
+
+/* Menu aberto */
+.menuOpen {
+  display: flex !important;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #f8f9fa;
+  width: 100%;
+  z-index: 999 !important;
+}
+
+.menuOpen .nav-link {
+  padding: 10px;
+  text-align: center;
+}
+
+.cpf {
+  display: flex;
+  border: solid 1px;
+}
+
+/* Responsividade */
+
+
+
+@media (max-width: 1399px) {
+  .nav {
+    height: 8vw;
+  }
+
+  .logo {
+    margin: 20px 0px;
+  }
+
+  .hamburguer {
+    display: flex;
+  }
+
+  .d-lg-flex {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1398px) {
+  .nav {
+    height: 6vw;
+  }
+}
+
+@media (max-width: 1198px) {
+  .nav {
+    height: 7vw;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav {
+    height: 8vw;
+  }
+}
+
+@media (max-width: 800px) {
+  .nav {
+    height: 9vw;
+  }
+}
+
+@media (max-width: 799px) {
+  .nav {
+    height: 12vw;
+  }
+}

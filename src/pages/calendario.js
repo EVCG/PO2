@@ -1,0 +1,175 @@
+import React, { useState } from 'react';
+import calendario from '../img/calendario.png';
+import Image from 'next/image';
+import Header from "../components/header.js";
+import Footer from '../components/footer.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useRouter } from 'next/router';
+import Footer from '../components/footer.js';
+import { Modal, Button } from 'react-bootstrap';
+
+export default function Home() {
+  return (
+    <>
+      <Header />
+      <div className={styles.body}>
+        <div className={styles.container1}>
+          <div className={styles.container2}>
+            <div className={styles.calendario_logo_container}>
+              <Image src={calendario} alt="calendario_logo" className={styles.calendario_logo} />
+              <p>Calendário Semanal</p>
+            </div>
+            <h1>Nome do curso - Semestre - Período</h1>
+          </div>
+          <div className="col-md-6">
+            <div className="card p-4 mt-3 border-none border-0 rounded-5">
+              <div className="d-flex align-items-center border-bottom border-2 pb-2 mb-3">
+                <Image src={sino} alt="Sino" width={35} height={50} className="me-2" />
+                <h4 className={`m-0 fw-bold ${styles.muralAlertas}`}>Mural de Alertas</h4>
+              </div>
+              <p className={`text-muted fw-bold ${styles.descricao}`}>Aqui aparecerá as turmas que estão sem professores definidos.</p>
+              <div className="d-flex flex-column gap-2">
+                <AlertItem />
+                <AlertItem />
+                <AlertItem />
+                <AlertItem />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="d-flex gap-3 mb-4">
+          <select className="form-select w-25">
+            <option>Curso</option>
+            <option>Direito</option>
+            <option>Medicina</option>
+            <option>Psicologia</option>
+          </select>
+
+          <select className="form-select w-25">
+            <option>Semestres</option>
+            <option>1º Semestre</option>
+            <option>2º Semestre</option>
+            <option>3º Semestre</option>
+          </select>
+
+          <select className="form-select w-25">
+            <option>Turno</option>
+            <option>Matutino</option>
+            <option>Vespertino</option>
+            <option>Noturno</option>
+          </select>
+
+          <div className="position-relative w-100">
+            <input type="text" className="form-control" placeholder="Buscar" />
+            <Image src={lupa} alt="Lupa" width={25} height={25} className="position-absolute lupa-icon" style={{ top: '50%', right: '10px', transform: 'translateY(-50%)' }} />
+          </div>
+        </div>
+
+        <div className="row g-4">
+          {Array.from({ length: 9 }).map((_, i) => (
+            <div className="col-md-4" key={i}>
+              <Cartao />
+            </div>
+          ))}
+        </div>
+      </div>
+      <Nav />
+      <Footer />
+    </div>
+  );
+}
+
+function AlertItem() {
+  const [showModal, setShowModal] = useState(false);
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
+  const handleInfoShow = () => setShowInfoModal(true);
+  const handleInfoClose = () => setShowInfoModal(false);
+  const handleConfirmShow = () => setShowConfirmModal(true);
+  const handleConfirmClose = () => setShowConfirmModal(false);
+
+  return (
+    <>
+      <div className="d-flex justify-content-between align-items-center rounded p-2">
+        <div className="d-flex align-items-center">
+          <div className={`text-white rounded-circle d-flex justify-content-center align-items-center ${styles.colorec0089}`} style={{ width: '25px', height: '25px', fontSize: '18px' }}>
+            !
+          </div>
+          <span className="ms-3 text-dark fw-bold">Turma Resumida</span>
+        </div>
+        <button className={`text-white d-flex justify-content-center align-items-center p-1 ${styles.color900372}`} onClick={handleShow}>
+          <Image src={friends} alt="Professores" width={20} height={20} className="me-2" />
+          Professores
+        </button>
+      </div>
+
+      {/* Modal Lista de Professores */}
+      <Modal show={showModal} onHide={handleClose} className={`${styles.customModal}`} centered>
+        <Modal.Header closeButton className={`pt-4 ${styles.alertaItemContainerHeader}`}>
+          <Image src={alertaIcon} alt="Professores" width={50} height={40} className="me-3 fw-bold" />
+          <Modal.Title className={`fs-3 fw-bold ${styles.alertaIconTitulo}`}>Lista de Professores</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className={`pb-4x ${styles.alertaItemContainerBody}`}>
+          <p className={`fw-bold ${styles.descricaoP}`} style={{ color: '#43054e' }}>Aqui está a lista de professores disponíveis para ministrar esta aula:</p>
+          <ul className="list-group fs-6 fw-semibold">
+            {['Nome do Professor', 'Nome do Professor', 'Nome do Professor', 'Nome do Professor', 'Nome do Professor'].map((professor, index) => (
+              <li key={index} className="list-group-item d-flex justify-content-between align-items-center border-0" style={{ color: '#43054e' }}>
+                <div className="d-flex align-items-center">
+                  <div className="rounded-circle me-3" style={{ width: '35px', height: '35px', backgroundColor: '#e3dae5' }}></div>
+                  <span>{professor}</span>
+                </div>
+                <div className="d-flex gap-2">
+                  <Button variant="secondary" className="pt-0 pb-0" onClick={handleInfoShow}>+ Informações</Button>
+                  <Button variant="primary" className="d-flex justify-content-center align-items-center pt-0 pb-0 border-0" style={{ backgroundColor: "#900372" }} onClick={handleConfirmShow}>
+                    <Image className={`me-2 ${styles.confirmacao}`} src={confirmacao} style={{ width: '21px', height: '18px' }} alt="Esquerda" />
+                    Escolher
+                  </Button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Modal.Body>
+      </Modal>
+
+      {/* Modal de Informações do Professor */}
+      <Modal show={showInfoModal} onHide={handleInfoClose} centered>
+        <Modal.Header className="border-0" closeButton>
+          <div className="rounded-circle me-3" style={{ width: '55px', height: '55px', backgroundColor: '#e3dae5' }}></div>
+          <Modal.Title className={`fw-bold fs-5 ${styles.modalTitle}`} style={{ color: '#43054e' }}>Nome do Professor</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="fw-bold" style={{ color: '#43054e' }}>
+          <p>Descrição sobre o professor</p>
+          <p>Idade do Professor</p>
+          <p>Adesão do Professor</p>
+        </Modal.Body>
+        <Modal.Footer className={`border-0 ${styles.modalFooter}`}>
+          <button className={`btn ${styles.backButton}`} onClick={handleInfoClose}>
+            <Image className={`me-2 ${styles.flechaVoltar}`} src={flechaEsquerda} style={{ width: '20px', height: '20px' }} alt="Esquerda" />
+            Voltar
+          </button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Modal de Confirmação */}
+      <Modal show={showConfirmModal} onHide={handleConfirmClose} centered>
+        <Modal.Header closeButton className={`border-0 fw-bold ${styles.headerEscolher}`}>
+          <Modal.Title className="fw-bold" style={{ color: '#43054e' }}>Atenção!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className={`border-0 fw-bold ${styles.bodyEscolher}`} style={{ color: '#43054e' }}>
+          <p className="mb-1 fs-5">Confirma a escolha do professor:</p>
+          <p className="fw-bold fs-5 mb-1">Nome do professor</p>
+          <p className="mb-1 fs-5">para ministrar a aula de</p>
+          <p className="fw-bold fs-5">Nome da aula</p>
+        </Modal.Body>
+        <Modal.Footer className={`border-0 fw-bold ${styles.footerEscolher}`}>
+          <Button variant="secondary" onClick={handleConfirmClose}>Cancelar</Button>
+          <Button variant="primary border-0" style={{ backgroundColor: '#900372' }}>Salvar</Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
