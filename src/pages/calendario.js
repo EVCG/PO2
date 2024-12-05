@@ -4,11 +4,43 @@ import Image from 'next/image';
 import Header from "../components/header.js";
 import Footer from '../components/footer.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useRouter } from 'next/router';
-import Footer from '../components/footer.js';
-import { Modal, Button } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import styles from '../styles/calendario.module.css';
+import atencao from '../img/alerta.png'
+import conversar from '../img/conversar.png'
+import remover from '../img/remover.png'
+import otimo from '../img/pronto.jpg'
+import adicionar from '../img/adicionar.png'
+import erro from '../img/erro.png'
+import Link from 'next/link';
 
-export default function Home() {
+export default function Calendario() {
+  const [showModalLaranja, setShowModalLaranja] = useState(false); // Controle do modal laranja
+  const [showModalVerde, setShowModalVerde] = useState(false); // Controle do modal verde
+  const [showModalVermelho, setShowModalVermelho] = useState(false); // Controle do modal vermelho
+  const [selectedTime, setSelectedTime] = useState(''); // Para exibir o horário no modal
+  const [modalType, setModalType] = useState(''); // Para identificar o tipo do modal (laranja ou verde)
+
+  const handleShowModal = (time, type) => {
+    setSelectedTime(time); // Definir o horário para o qual o modal foi clicado
+    setModalType(type); // Definir o tipo do modal (laranja, verde ou vermelho)
+    if (type === 'laranja') {
+      setShowModalLaranja(true);
+    } else if (type === 'verde') {
+      setShowModalVerde(true);
+    } else if (type === 'vermelho') {
+      setShowModalVermelho(true); // Mostrar o modal vermelho
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowModalLaranja(false);
+    setShowModalVerde(false);
+    setShowModalVermelho(false);
+  };
+
+
   return (
     <>
       <Header />
@@ -21,155 +53,188 @@ export default function Home() {
             </div>
             <h1>Nome do curso - Semestre - Período</h1>
           </div>
-          <div className="col-md-6">
-            <div className="card p-4 mt-3 border-none border-0 rounded-5">
-              <div className="d-flex align-items-center border-bottom border-2 pb-2 mb-3">
-                <Image src={sino} alt="Sino" width={35} height={50} className="me-2" />
-                <h4 className={`m-0 fw-bold ${styles.muralAlertas}`}>Mural de Alertas</h4>
-              </div>
-              <p className={`text-muted fw-bold ${styles.descricao}`}>Aqui aparecerá as turmas que estão sem professores definidos.</p>
-              <div className="d-flex flex-column gap-2">
-                <AlertItem />
-                <AlertItem />
-                <AlertItem />
-                <AlertItem />
-              </div>
+
+          <div className={styles.containerCalendario}>
+            <div className={styles.corpoCalendario}>
+              <table>
+                <thead>
+                  <tr className={styles.cabecalho}>
+                    <th className={styles.colunaDiaHora}>
+                      <span className={styles.dia}>Dia</span>
+                      <span className={styles.linha}></span>
+                      <span className={styles.hora}>Hora</span>
+                    </th>
+                    <th>Segunda-Feira</th>
+                    <th>Terça-Feira</th>
+                    <th>Quarta-Feira</th>
+                    <th>Quinta-Feira</th>
+                    <th>Sexta-Feira</th>
+                    <th>Sábado</th>
+                    <th className={styles.domingo}>Domingo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className={styles.horario}><p>07:10 às</p><p>08:50</p></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.colunaDomingo}></td>
+                  </tr>
+                  <tr>
+                    <td className={styles.horario}><p>09:10 às</p><p>10:00</p></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.colunaDomingo}></td>
+                  </tr>
+                  <tr>
+                    <td className={styles.horario}><p>14:00 às</p><p>15:50</p></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.colunaDomingo}></td>
+                  </tr>
+                  {/* Linha com os containers laranja */}
+                  <tr>
+                    <td className={styles.horario}><p>14:00 às</p><p>15:50</p></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.celulaVazia}><div className={styles.containerVazio}></div></td>
+                    <td className={styles.colunaDomingo}></td>
+                  </tr>
+
+                  {/* Linha com os containers verdes */}
+                  <tr>
+                    <td className={styles.horario}><p>19:10 às</p><p>20:50</p></td>
+                    <td className={styles.celulaVazia}>
+                      <div className={styles.containerVerde} onClick={() => handleShowModal('18:10 às 19:00', 'verde')} />
+                    </td>
+                    <td className={styles.celulaVazia}>
+                      <div className={styles.containerVerde} onClick={() => handleShowModal('18:10 às 19:00', 'verde')} />
+                    </td>
+                    <td className={styles.celulaVazia}>
+                      <div className={styles.containerVerde} onClick={() => handleShowModal('18:10 às 19:00', 'verde')} />
+                    </td>
+                    <td className={styles.celulaVazia}>
+                      <div className={styles.containerVerde} onClick={() => handleShowModal('18:10 às 19:00', 'verde')} />
+                    </td>
+                    <td className={styles.celulaVazia}>
+                      <div className={styles.containerVerde} onClick={() => handleShowModal('18:10 às 19:00', 'verde')} />
+                    </td>
+                    <td className={styles.celulaVazia}>
+                      <div className={styles.containerVermelho} onClick={() => handleShowModal('18:10 às 19:00', 'vermelho')} />
+                    </td>
+                    <td className={styles.colunaDomingo}></td>
+                  </tr>
+                  {/* Linha com os containers vermelhos */}
+                  <tr>
+                    <td className={styles.horario}><p>21:10 às</p><p>22:00</p></td>
+                    <td className={styles.celulaVazia}>
+                      <div className={styles.containerVerde} onClick={() => handleShowModal('18:10 às 19:00', 'verde')} />
+                    </td>
+                    <td className={styles.celulaVazia}>
+                      <div className={styles.containerVermelho} onClick={() => handleShowModal('18:10 às 19:00', 'vermelho')} />
+                    </td>
+                    <td className={styles.celulaVazia}>
+                      <div className={styles.containerVerde} onClick={() => handleShowModal('18:10 às 19:00', 'verde')} />
+                    </td>
+                    <td className={styles.celulaVazia}>
+                      <div className={styles.containerVerde} onClick={() => handleShowModal('18:10 às 19:00', 'verde')} />
+                    </td>
+                    <td className={styles.celulaVazia}>
+                      <div className={styles.containerLaranja} onClick={() => handleShowModal('18:10 às 19:00', 'laranja')} />
+                    </td>
+                    <td className={styles.celulaVazia}>
+                      <div className={styles.containerVerde} onClick={() => handleShowModal('18:10 às 19:00', 'verde')} />
+                    </td>
+                    <td className={styles.colunaDomingo}></td>
+                  </tr>
+
+                </tbody>
+              </table>
+
+
             </div>
           </div>
-        </div>
-
-        <div className="d-flex gap-3 mb-4">
-          <select className="form-select w-25">
-            <option>Curso</option>
-            <option>Direito</option>
-            <option>Medicina</option>
-            <option>Psicologia</option>
-          </select>
-
-          <select className="form-select w-25">
-            <option>Semestres</option>
-            <option>1º Semestre</option>
-            <option>2º Semestre</option>
-            <option>3º Semestre</option>
-          </select>
-
-          <select className="form-select w-25">
-            <option>Turno</option>
-            <option>Matutino</option>
-            <option>Vespertino</option>
-            <option>Noturno</option>
-          </select>
-
-          <div className="position-relative w-100">
-            <input type="text" className="form-control" placeholder="Buscar" />
-            <Image src={lupa} alt="Lupa" width={25} height={25} className="position-absolute lupa-icon" style={{ top: '50%', right: '10px', transform: 'translateY(-50%)' }} />
-          </div>
-        </div>
-
-        <div className="row g-4">
-          {Array.from({ length: 9 }).map((_, i) => (
-            <div className="col-md-4" key={i}>
-              <Cartao />
+          <div className={styles.containerVoltar}>
+            <div className={styles.voltar}>
+              <Link href="/home" className="nav-link fw-bold px-3">Voltar</Link>
             </div>
-          ))}
-        </div>
-      </div>
-      <Nav />
-      <Footer />
-    </div>
-  );
-}
-
-function AlertItem() {
-  const [showModal, setShowModal] = useState(false);
-  const [showInfoModal, setShowInfoModal] = useState(false);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-
-  const handleShow = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
-  const handleInfoShow = () => setShowInfoModal(true);
-  const handleInfoClose = () => setShowInfoModal(false);
-  const handleConfirmShow = () => setShowConfirmModal(true);
-  const handleConfirmClose = () => setShowConfirmModal(false);
-
-  return (
-    <>
-      <div className="d-flex justify-content-between align-items-center rounded p-2">
-        <div className="d-flex align-items-center">
-          <div className={`text-white rounded-circle d-flex justify-content-center align-items-center ${styles.colorec0089}`} style={{ width: '25px', height: '25px', fontSize: '18px' }}>
-            !
           </div>
-          <span className="ms-3 text-dark fw-bold">Turma Resumida</span>
+
+
         </div>
-        <button className={`text-white d-flex justify-content-center align-items-center p-1 ${styles.color900372}`} onClick={handleShow}>
-          <Image src={friends} alt="Professores" width={20} height={20} className="me-2" />
-          Professores
-        </button>
+
+        {/* Modal de Detalhes Laranja */}
+        <Modal show={showModalLaranja} onHide={handleCloseModal}>
+          <Modal.Header closeButton className={styles.atencaoHeader}>
+            <Modal.Title className={styles.atencaoTitle}> <Image src={atencao} alt="atenção" className={styles.atencao} /> Atenção!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className={styles.atencaoBody}>
+            <p>Ainda não há a confirmação de que este professor será responsável por ministrar esta aula</p>
+          </Modal.Body>
+          <Modal.Footer className={styles.atencaoFooter}>
+            <Button variant="secondary" onClick={handleCloseModal} className={styles.atencaoButton}>
+              <Image src={remover} alt="atenção" className={styles.remover} />
+              Remover professor
+            </Button>
+            <Button variant="secondary" onClick={handleCloseModal} className={styles.atencaoButton}>
+              Conversar com os Professores
+              <Image src={conversar} alt="atenção" className={styles.conversar} />
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        {/* Modal de Detalhes Verde */}
+        <Modal show={showModalVerde} onHide={handleCloseModal}>
+          <Modal.Header closeButton className={styles.atencaoHeader}>
+            <Modal.Title className={styles.atencaoTitle}> <Image src={otimo} alt="otimo" className={styles.atencao} /> Ótimo!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className={styles.atencaoBody}>
+            <p>Já foi confirmada a designação de um professor para ministrar esta aula.</p>
+            <p>Nome do Professor</p>
+          </Modal.Body>
+          <Modal.Footer className={styles.atencaoFooter}>
+            <Button variant="secondary" onClick={handleCloseModal} className={styles.atencaoButton}>
+              <Image src={remover} alt="atenção" className={styles.removerPronto} />
+              Remover professor
+            </Button>
+
+          </Modal.Footer>
+        </Modal>
+        {/* Modal Vermelho */}
+        <Modal show={showModalVermelho} onHide={handleCloseModal} centered>
+          <Modal.Header closeButton className={styles.atencaoHeader}>
+            <Modal.Title className={styles.atencaoTitle}> <Image src={erro} alt="otimo" className={styles.atencao} /> Atenção! </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className={styles.atencaoBody}>
+            <p>Até o momento, não há um professor designado para ministrar esta aula.</p>
+
+          </Modal.Body>
+          <Modal.Footer className={styles.atencaoFooter}>
+            <Button variant="secondary" onClick={handleCloseModal} className={styles.atencaoButton}>
+              <Image src={adicionar} alt="adicionar" className={styles.adicionarErro} />
+              Adicionar professores
+            </Button>
+
+          </Modal.Footer>
+        </Modal>
+
+        <Footer />
       </div>
-
-      {/* Modal Lista de Professores */}
-      <Modal show={showModal} onHide={handleClose} className={`${styles.customModal}`} centered>
-        <Modal.Header closeButton className={`pt-4 ${styles.alertaItemContainerHeader}`}>
-          <Image src={alertaIcon} alt="Professores" width={50} height={40} className="me-3 fw-bold" />
-          <Modal.Title className={`fs-3 fw-bold ${styles.alertaIconTitulo}`}>Lista de Professores</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className={`pb-4x ${styles.alertaItemContainerBody}`}>
-          <p className={`fw-bold ${styles.descricaoP}`} style={{ color: '#43054e' }}>Aqui está a lista de professores disponíveis para ministrar esta aula:</p>
-          <ul className="list-group fs-6 fw-semibold">
-            {['Nome do Professor', 'Nome do Professor', 'Nome do Professor', 'Nome do Professor', 'Nome do Professor'].map((professor, index) => (
-              <li key={index} className="list-group-item d-flex justify-content-between align-items-center border-0" style={{ color: '#43054e' }}>
-                <div className="d-flex align-items-center">
-                  <div className="rounded-circle me-3" style={{ width: '35px', height: '35px', backgroundColor: '#e3dae5' }}></div>
-                  <span>{professor}</span>
-                </div>
-                <div className="d-flex gap-2">
-                  <Button variant="secondary" className="pt-0 pb-0" onClick={handleInfoShow}>+ Informações</Button>
-                  <Button variant="primary" className="d-flex justify-content-center align-items-center pt-0 pb-0 border-0" style={{ backgroundColor: "#900372" }} onClick={handleConfirmShow}>
-                    <Image className={`me-2 ${styles.confirmacao}`} src={confirmacao} style={{ width: '21px', height: '18px' }} alt="Esquerda" />
-                    Escolher
-                  </Button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </Modal.Body>
-      </Modal>
-
-      {/* Modal de Informações do Professor */}
-      <Modal show={showInfoModal} onHide={handleInfoClose} centered>
-        <Modal.Header className="border-0" closeButton>
-          <div className="rounded-circle me-3" style={{ width: '55px', height: '55px', backgroundColor: '#e3dae5' }}></div>
-          <Modal.Title className={`fw-bold fs-5 ${styles.modalTitle}`} style={{ color: '#43054e' }}>Nome do Professor</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="fw-bold" style={{ color: '#43054e' }}>
-          <p>Descrição sobre o professor</p>
-          <p>Idade do Professor</p>
-          <p>Adesão do Professor</p>
-        </Modal.Body>
-        <Modal.Footer className={`border-0 ${styles.modalFooter}`}>
-          <button className={`btn ${styles.backButton}`} onClick={handleInfoClose}>
-            <Image className={`me-2 ${styles.flechaVoltar}`} src={flechaEsquerda} style={{ width: '20px', height: '20px' }} alt="Esquerda" />
-            Voltar
-          </button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* Modal de Confirmação */}
-      <Modal show={showConfirmModal} onHide={handleConfirmClose} centered>
-        <Modal.Header closeButton className={`border-0 fw-bold ${styles.headerEscolher}`}>
-          <Modal.Title className="fw-bold" style={{ color: '#43054e' }}>Atenção!</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className={`border-0 fw-bold ${styles.bodyEscolher}`} style={{ color: '#43054e' }}>
-          <p className="mb-1 fs-5">Confirma a escolha do professor:</p>
-          <p className="fw-bold fs-5 mb-1">Nome do professor</p>
-          <p className="mb-1 fs-5">para ministrar a aula de</p>
-          <p className="fw-bold fs-5">Nome da aula</p>
-        </Modal.Body>
-        <Modal.Footer className={`border-0 fw-bold ${styles.footerEscolher}`}>
-          <Button variant="secondary" onClick={handleConfirmClose}>Cancelar</Button>
-          <Button variant="primary border-0" style={{ backgroundColor: '#900372' }}>Salvar</Button>
-        </Modal.Footer>
-      </Modal>
     </>
   );
 }
